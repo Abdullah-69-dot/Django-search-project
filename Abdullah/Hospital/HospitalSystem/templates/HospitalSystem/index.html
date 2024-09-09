@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Homepage</title>
+    <link rel="stylesheet" href="{% static 'HospitalSystem\styles.css' %}">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">Hospital Logo</div>
+        <ul class="nav-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Doctors</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Double Selection Search -->
+    <div class="search-container">
+        <h2>Search Doctors</h2>
+        <form method="GET" action="{% url 'index' %}">
+            <select name="specialty">
+                <option value="">Select Specialty</option>
+                <option value="Dental">Dental</option>
+                <option value="Orthopedic">Orthopedic</option>
+                <option value="Internal medicine">Internal medicine</option>
+            </select>
+            <select name="location">
+                <option value="">Select Location</option>
+                <option value="Cairo">Cairo</option>
+                <option value="Giza">Giza</option>
+                <option value="Alexandria">Alexandria</option>
+            </select>
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
+    <!-- Doctor Cards Section -->
+    <section class="doctors-section">
+        {% for doctor in doctors %}
+            <div class="doctor-card">
+              {% if doctor.image %}
+                <img src="{{ doctor.image.url }}" alt="{{ doctor.name }}">
+              {% else %}
+                <p>No image available</p>
+              {% endif %}
+                <h3>{{ doctor.name }}</h3>
+                <p>{{ doctor.specialty }} - {{ doctor.location }}</p>
+            </div>
+        {% empty %}
+            <p>No doctors found matching your criteria.</p>
+        {% endfor %}
+    </section>
+
+</body>
+</html>
